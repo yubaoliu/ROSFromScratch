@@ -1,0 +1,18 @@
+
+* Prepare
+** Openni
+#+begin_example
+sudo apt install ros-kinetic-openni-launch
+#+end_example
+
+* Tutorial
+** simple_controller
+How to move robot to a specific point
+
+#+begin_example sh
+roslaunch turtlebot_gazebo turtlebot_world.launch
+roslaunch turtlebot_rviz_launchers view_robot.launch
+rosrun  simple_controller controller.py
+#+end_example
+* References
+- mastering_ros: https://github.com/qboticslabs/mastering_ros
