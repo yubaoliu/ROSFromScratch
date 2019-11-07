@@ -1,18 +1,49 @@
 
-* Prepare
-** Openni
+* Preparation
+** turtlebot
 #+begin_example
-sudo apt install ros-kinetic-openni-launch
+sudo apt install ros-kinetic-turtlebot*
 #+end_example
 
-* Tutorial
+* Tutorial (Turtlebot Robot)
+** gazebo simulator
+#+begin_example
+roslaunch turtlebot_gazebo turtlebot_world.launch
+#+end_example
+** Rviz
+#+begin_example
+roslaunch turtlebot_rviz_launchers view_navigation.launch
+#+end_example
+** joy stick
+#+begin_example
+roslaunch turtlebot_teleop logitech.launch
+#+end_example
+** save map
+#+begin_example sh
+rosrun map_server map_saver  -f playground
+#+end_example
 ** simple_controller
 How to move robot to a specific point
 
 #+begin_example sh
-roslaunch turtlebot_gazebo turtlebot_world.launch
 roslaunch turtlebot_rviz_launchers view_robot.launch
 rosrun  simple_controller controller.py
 #+end_example
+** gmapping_launcher
+#+begin_example
+roslaunch gmapping_launcher kinect_gmapping.launch
+#+end_example
+** amcl_launch
+#+begin_example sh
+roslaunch  amcl_launcher change_map.launch map_file:=/home/yubao/data/catkin_ws/src/ROSFromScratch/gmapping_launcher/map/playground.yaml
+#+end_example
+service:
+#+begin_example
+rosservice call /global_localization "{}"
+#+end_example
+** movebase_demo
+#+begin_example
+roslaunch movebase_launcher movebase_demo.launch map_file:=/home/yubao/data/catkin_ws/src/ROSFromScratch/gmapping_launcher/map/playground.yaml
+#+end_example  
 * References
 - mastering_ros: https://github.com/qboticslabs/mastering_ros
