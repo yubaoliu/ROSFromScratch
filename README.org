@@ -5,6 +5,15 @@
 sudo apt install ros-kinetic-turtlebot*
 #+end_example
 
+* Service
+#+begin_example
+from [package].srv import [service]
+#+end_example
+
+Do not use =_= in service file name.
+- ServiceExample.srv [OK]
+- Service_Example.srv [Wrong]
+
 * Tutorial (Turtlebot Robot)
 ** gazebo simulator
 #+begin_example
@@ -45,5 +54,6 @@ rosservice call /global_localization "{}"
 #+begin_example
 roslaunch movebase_launcher movebase_demo.launch map_file:=/home/yubao/data/catkin_ws/src/ROSFromScratch/gmapping_launcher/map/playground.yaml
 #+end_example  
+
 * References
 - mastering_ros: https://github.com/qboticslabs/mastering_ros
