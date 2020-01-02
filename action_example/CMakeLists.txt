@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(beginner_tutorials)
+project(action_example)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,10 +8,15 @@ project(beginner_tutorials)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  actionlib_msgs
+  genmsg
   message_generation
   message_runtime
   roscpp
-  rospy
+  roslib
+  sensor_msgs
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -52,28 +57,29 @@ find_package(catkin REQUIRED COMPONENTS
 #   FILES
 #   Message1.msg
 #   Message2.msg
-#)
-
-## Generate services in the 'srv' folder
- add_service_files(
-   FILES
-  AddTwoInts.srv
-#   Service1.srv
-#   Service2.srv
- )
-
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
 # )
 
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
+
+## Generate actions in the 'action' folder
+add_action_files(
+  DIRECTORY action
+  FILES
+  DoDishes.action
+  # Action1.action
+  # Action2.action
+)
+
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs  # Or other packages containing msgs
- )
+generate_messages(
+  DEPENDENCIES
+  actionlib_msgs#   actionlib_msgs#   sensor_msgs#   std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,10 +111,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES beginner_tutorials
-  CATKIN_DEPENDS message_generation message_runtime roscpp rospy
-  DEPENDS system_lib
+#  INCLUDE_DIRS include
+#  LIBRARIES action_example
+#  CATKIN_DEPENDS actionlib actionlib_msgs actionlib_msgs message_generation message_runtime roscpp roslib sensor_msgs std_msgs
+#  DEPENDS system_lib
 )
 
 ###########
@@ -124,7 +130,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/beginner_tutorials.cpp
+#   src/${PROJECT_NAME}/action_example.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -135,14 +141,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/beginner_tutorials_node.cpp)
-add_executable(add_two_ints_server src/add_two_ints_server.cpp)
-target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
-add_dependencies(add_two_ints_server beginner_tutorials_gencpp)
-
-add_executable(add_two_ints_client src/add_two_ints_client.cpp)
-target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
-add_dependencies(add_two_ints_client beginner_tutorials_gencpp)
+# add_executable(${PROJECT_NAME}_node src/action_example_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -158,6 +157,16 @@ add_dependencies(add_two_ints_client beginner_tutorials_gencpp)
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+
+add_executable(server src/server.cpp)
+target_link_libraries(server
+  ${catkin_LIBRARIES}
+)
+
+add_executable(client src/client.cpp)
+target_link_libraries(client
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -206,7 +215,7 @@ add_dependencies(add_two_ints_client beginner_tutorials_gencpp)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_beginner_tutorials.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_action_example.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
