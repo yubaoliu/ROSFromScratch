@@ -1,0 +1,7 @@
+<launch>
+    <arg name="launch_prefix" default="" />
+    <param name="use_sim_time" value="true" />
+    
+    <node pkg="message_filter_example" type="simple_node" name="simple_node" output="screen" />
+
+</launch>

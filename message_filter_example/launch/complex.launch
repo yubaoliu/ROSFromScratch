@@ -1,0 +1,7 @@
+<launch>
+    <arg name="launch_prefix" default="" />
+    <param name="use_sim_time" value="true" />
+
+    <node pkg="message_filter_example" type="complex_node" name="message_filter_example" output="screen" launch-prefix="xterm -e gdb --args"/> 
+
+</launch>
