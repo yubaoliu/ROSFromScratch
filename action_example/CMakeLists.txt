@@ -20,7 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -74,8 +74,7 @@ add_action_files(
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
-  DEPENDENCIES
-  actionlib_msgs sensor_msgs std_msgs
+  DEPENDENCIES actionlib_msgs sensor_msgs std_msgs
 )
 
 ################################################
@@ -110,8 +109,8 @@ generate_messages(
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES action_example
- CATKIN_DEPENDS actionlib actionlib_msgs actionlib_msgs message_generation message_runtime roscpp roslib sensor_msgs std_msgs
-#  DEPENDS system_lib
+ CATKIN_DEPENDS actionlib actionlib_msgs message_generation message_runtime roscpp roslib sensor_msgs std_msgs
+ DEPENDS system_lib
 )
 
 ###########
@@ -121,9 +120,10 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-include
- # "~/data/catkin_ws/devel/include"
-  ${catkin_INCLUDE_DIRS}
+    include
+    ${catkin_INCLUDE_DIRS}
+    "/root/catkin_ws/devel/include"
+    ${Boost_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -156,15 +156,32 @@ include
 #   ${catkin_LIBRARIES}
 # )
 
+
+# add_dependencies(source_file_name package_name_generate_messages_cpp)
+
+
 add_executable(server src/server.cpp)
+add_dependencies(server action_example_generate_messages_cpp)
 target_link_libraries(server
   ${catkin_LIBRARIES}
 )
 
 add_executable(client src/client.cpp)
+add_dependencies(client action_example_generate_messages_cpp)
 target_link_libraries(client
   ${catkin_LIBRARIES}
 )
+
+add_dependencies(
+    server
+    ${catkin_EXPORTED_TARGETS}
+)
+
+add_dependencies(
+    client
+    ${catkin_EXPORTED_TARGETS}
+)
+
 
 #############
 ## Install ##
