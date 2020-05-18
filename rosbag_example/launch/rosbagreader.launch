@@ -1,0 +1,15 @@
+<launch>
+    <arg name="bagfile" value="/root/Dataset/TUM/freiburg3/rgbd_dataset_freiburg3_walking_xyz.bag" />
+    <arg name="image" value="/camera/rgb/image_color" />
+
+        <!--
+      <node pkg="rosbag" type="play" name="rosbag" args="-d 2 /home/nawenjie/1st.bag"/>
+      -->
+
+
+    <node pkg="rosbag_example" type="rosbagReadImagePerframe.py" name="rosbagreader" output="screen" >
+        <param name="bagfile_name" type="str" value="$(arg bagfile)" />
+        <param name="image_topic" type="str" value="$(arg image)" />
+    </node>
+
+ </launch>
