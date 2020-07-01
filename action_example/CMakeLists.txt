@@ -122,7 +122,7 @@ catkin_package(
 include_directories(
     include
     ${catkin_INCLUDE_DIRS}
-    "/root/catkin_ws/devel/include"
+    # "/root/catkin_ws/devel/include"
     ${Boost_INCLUDE_DIRS}
 )
 
